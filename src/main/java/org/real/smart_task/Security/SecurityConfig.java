@@ -28,7 +28,7 @@ public class SecurityConfig {
 
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // login, register -> public
+                        .requestMatchers("/api/**").permitAll() // login, register -> public
                         .anyRequest().authenticated() // everything else -> needs JWT
                 )
 
