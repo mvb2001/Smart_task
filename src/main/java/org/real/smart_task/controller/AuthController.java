@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         String token = authService.login(user.getEmail(), user.getPassword());
-        return ResponseEntity.ok().body("JWT Token: " + token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
+
 }

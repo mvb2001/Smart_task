@@ -17,14 +17,14 @@ public class AuthService {
 
     // Signup method
     public String signup(User user) {
-        // Check if email already exists
+
         if (userRepo.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
-        // Encode password and save user
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
-        // Generate JWT token
+
         return jwtUtil.generateToken(user.getEmail());
     }
 
@@ -33,11 +33,11 @@ public class AuthService {
         // Find user by email safely using Optional
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-        // Check password
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
-        // Generate JWT token
+
         return jwtUtil.generateToken(user.getEmail());
     }
 }
