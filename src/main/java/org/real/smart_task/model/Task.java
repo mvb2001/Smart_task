@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,4 +33,15 @@ public class Task {
 
     private String category;
     private String filePath;
+
+    @Column(nullable = true)
+    private int priorityScore;
+
+    @PrePersist
+    @PreUpdate
+    public void calculatePriorityScore() {
+        long hoursUntilDeadline = Math.max(1, Duration.between(LocalDateTime.now(), deadline).toHours());
+        int urgency = (int) (1000 / hoursUntilDeadline);
+        this.priorityScore = (importance * 2) + urgency;
+    }
 }
