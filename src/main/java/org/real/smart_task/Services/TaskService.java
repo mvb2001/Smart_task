@@ -30,7 +30,26 @@ public class TaskService {
         }
         taskRepository.deleteById(id);
     }
+
+    public Task updateTask(Task task) {
+
+        Task existingTask = taskRepository.findById(task.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + task.getId()));
+
+
+        // Update the fields
+        existingTask.setTitle(task.getTitle());
+        existingTask.setDescription(task.getDescription());
+        existingTask.setDeadline(task.getDeadline());
+        existingTask.setImportance(task.getImportance());
+        existingTask.setCategory(task.getCategory());
+        existingTask.setFilePath(task.getFilePath());
+
+        // priorityScore will be recalculated automatically on save
+        return taskRepository.save(existingTask);
     }
+
+}
 
 
 

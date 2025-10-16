@@ -25,6 +25,17 @@ public class TaskController {
         return ResponseEntity.ok(taskService.addTask(task));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
+        try {
+            task.setId(id); // ensure correct ID
+            Task updatedTask = taskService.updateTask(task);
+            return ResponseEntity.ok(updatedTask);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Long id) {
         try {
